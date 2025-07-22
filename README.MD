@@ -12,12 +12,14 @@
 
 ---
 
-**O projeto Coleta Seletiva é um sistema desenvolvido para facilitar a localização e o gerenciamento de pontos de coleta de resíduos recicláveis em áreas urbanas. Através de uma API RESTful
-![Spring Boot API](https://img.shields.io/badge/API-RESTful%20Spring%20Boot-brightgreen?logo=springboot&style=flat)
-
- construída com Spring Boot e uma interface interativa baseada em mapas com Leaflet, o sistema permite que usuários visualizem pontos de coleta em um mapa, além de possibilitar o cadastro e a consulta de informações relevantes sobre os resíduos coletados.**
+**O projeto Coleta Seletiva é um sistema desenvolvido para facilitar a localização e o gerenciamento de pontos de coleta de resíduos recicláveis em áreas urbanas. Através de uma API**  
+![API](https://img.shields.io/badge/API-RESTful-brightgreen?style=flat)  
+**e do framework**  
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7.0-brightgreen?logo=springboot&style=flat)  
+**construída com Spring Boot e uma interface interativa baseada em mapas com Leaflet, o sistema permite que usuários visualizem pontos de coleta em um mapa, além de possibilitar o cadastro e a consulta de informações relevantes sobre os resíduos coletados.**
 
 **O objetivo principal do projeto é incentivar a prática da coleta seletiva, promovendo a sustentabilidade e a conscientização ambiental, oferecendo uma ferramenta simples e eficiente para cidadãos e órgãos responsáveis pelo manejo dos resíduos.**
+
 
 
 
