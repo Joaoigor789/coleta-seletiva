@@ -69,6 +69,20 @@
 
 ---
 
+## 🔍 Imagens do Projeto
+
+### 🌿 Logo 1
+![Logo 1](images/logo1.png)
+
+### ♻️ Logo 2
+![Logo 2](images/logo2.png)
+
+### 🧩 Logo 3
+![Logo 3](images/logo3.png)
+
+
+---
+
 ## Frontend
 
 O frontend consiste em uma página HTML com Leaflet que carrega os pontos da API e os exibe no mapa.
