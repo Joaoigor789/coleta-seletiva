@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Adicionar Ponto de Coleta</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, button { width: 100%; padding: 8px; margin-top: 5px; }
+        button { background-color: #27ae60; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #219150; }
+    </style>
+</head>
+<body>
+
+<h2>Adicionar Ponto de Coleta</h2>
+
+<form th:action="@{/pontos/salvar}" th:object="${pontoColeta}" method="post">
+
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" th:field="*{nome}" required />
+
+    <label for="endereco">Endereço:</label>
+    <input type="text" id="endereco" th:field="*{endereco}" />
+
+    <label for="tipoResiduo">Tipo de Resíduo:</label>
+    <input type="text" id="tipoResiduo" th:field="*{tipoResiduo}" />
+
+    <label for="latitude">Latitude:</label>
+    <input type="number" step="any" id="latitude" th:field="*{latitude}" required />
+
+    <label for="longitude">Longitude:</label>
+    <input type="number" step="any" id="longitude" th:field="*{longitude}" required />
+
+    <button type="submit">Salvar</button>
+
+</form>
+
+</body>
+</html>

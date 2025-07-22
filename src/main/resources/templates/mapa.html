@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mapa de Pontos de Coleta</title>
+
+    <!-- CSS do Leaflet -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            crossorigin=""
+    />
+
+    <style>
+        body, html {
+          margin: 0; padding: 0; height: 100%;
+          font-family: Arial, sans-serif;
+          display: flex;
+          flex-direction: column;
+        }
+        #map {
+          flex-grow: 1;
+          width: 100%;
+        }
+        #buttons {
+          padding: 10px;
+          background: #f4f4f4;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+        }
+        #buttons button {
+          padding: 8px 14px;
+          border: none;
+          border-radius: 5px;
+          background-color: #27ae60;
+          color: white;
+          cursor: pointer;
+          font-weight: bold;
+          white-space: nowrap;
+          transition: background-color 0.3s ease;
+        }
+        #button:hover {
+          background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+
+<div id="buttons">
+    <!-- Botões vão ser inseridos aqui dinamicamente -->
+</div>
+<div id="map"></div>
+
+<!-- JS do Leaflet -->
+<script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""
+></script>
+
+<script>
+    // Inicializa o mapa centrado no Brasil
+    const map = L.map('map').setView([-15.7801, -47.9292], 4);
+
+    // Adiciona a camada OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Área onde os botões serão colocados
+    const buttonsDiv = document.getElementById('buttons');
+
+    // Pega os pontos do backend
+    fetch('/api/pontos')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(ponto => {
+          if (ponto.latitude && ponto.longitude) {
+            // Cria marcador
+            const marker = L.marker([ponto.latitude, ponto.longitude]).addTo(map);
+            marker.bindPopup(
+              `<b>${ponto.nome}</b><br>` +
+              (ponto.endereco ? `Endereço: ${ponto.endereco}<br>` : '') +
+              (ponto.tipoResiduo ? `Tipo: ${ponto.tipoResiduo}` : '')
+            );
+
+            // Cria botão para centralizar no ponto
+            const btn = document.createElement('button');
+            btn.textContent = ponto.nome;
+            btn.addEventListener('click', () => {
+              map.setView([ponto.latitude, ponto.longitude], 15, { animate: true });
+              marker.openPopup();
+            });
+            buttonsDiv.appendChild(btn);
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao carregar pontos:', err);
+      });
+</script>
+
+</body>
+</html>

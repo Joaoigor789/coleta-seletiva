@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Materiais Recicláveis - Coleta Seletiva</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Reset e básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Navbar */
+        nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 30px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        nav span.logo {
+            color: #27ae60;
+        }
+        /* Container principal */
+        main {
+            flex-grow: 1;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        main h1 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #27ae60;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        main p.description {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        /* Grid dos cards */
+        .grid-residuos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+            gap: 25px;
+        }
+        /* Card */
+        .card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgb(39 174 96 / 0.2);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+        .card:hover {
+            box-shadow: 0 6px 14px rgb(39 174 96 / 0.35);
+        }
+        /* Ícone (emoji) */
+        .icon {
+            font-size: 3rem;
+            margin-right: 20px;
+            user-select: none;
+        }
+        /* Nome do resíduo */
+        .nome {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            user-select: text;
+        }
+        /* Rodapé */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        button.submit-btn {
+            background-color: #27ae60;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 700;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 1rem;
+        }
+        button.submit-btn:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav>
+    <span class="logo">Coleta<span style="color:#e67e22;">Seletiva</span></span>
+    <div style="float: right;">
+        <a href="/pontos" style="color: white; text-decoration: none; margin-right: 20px;">Ponto</a>
+        <a href="/mapa" style="color: white; text-decoration: none;">Mapa</a>
+    </div>
+</nav>
+
+<main>
+    <h1>Materiais Recicláveis</h1>
+    <p class="description">Clique em um material para adicionar um novo resíduo.</p>
+
+    <div class="grid-residuos">
+        <!-- Cards com ícones e nomes -->
+        <div class="card" th:each="residuo : ${residuos}" onclick="openModal()">
+            <div class="icon" th:text="${residuo.nome == 'Vidro' ? '♻️' : residuo.nome == 'Garrafa PET' ? '🧴' : '🗑️'}">♻️</div>
+            <div class="nome" th:text="${residuo.nome}">Vidro</div>
+            <div style="font-size: 1rem; color: #666; margin-left: 10px;" th:text="'Quantidade: ' + ${residuo.quantidade}">Quantidade: 0</div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Adicionar Novo Material</h2>
+        <form th:action="@{/residuos}" method="post">
+            <label for="nome">Nome do Material</label>
+            <input type="text" id="nome" name="nome" required placeholder="Digite o nome do material" />
+            <button type="submit" class="submit-btn">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 Coleta Seletiva. Todos os direitos reservados.
+</footer>
+
+<script>
+    function openModal() {
+        document.getElementById('modal').style.display = 'block';
+        document.getElementById('nome').value = '';
+    }
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+    window.onclick = function(event) {
+        const modal = document.getElementById('modal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
+</body>
+</html>
