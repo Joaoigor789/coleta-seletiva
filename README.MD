@@ -72,13 +72,13 @@
 ## 🔍 Imagens do Projeto
 
 ### 🌿 Logo 1
-![Logo 1](images/logo1.png)
+![Logo 1](images/logo1.jpeg)
 
 ### ♻️ Logo 2
-![Logo 2](images/logo2.png)
+![Logo 2](images/logo2.jpeg)
 
 ### 🧩 Logo 3
-![Logo 3](images/logo3.png)
+![Logo 3](images/logo3.jpeg)
 
 
 ---
